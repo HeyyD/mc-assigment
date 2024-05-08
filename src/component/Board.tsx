@@ -21,6 +21,9 @@ const Board = ({ width, height }: Props) => {
           </BoardCell>
         ))}
       </div>
+      <Draggable id="draggable">
+        Drag me
+      </Draggable>
     </DndContext>
   )
 }

@@ -6,14 +6,12 @@ type Props = {
   id: string
   children: React.ReactNode
 }
-const BoardCell = (props: Props) => {
-  const { isOver, setNodeRef } = useDroppable({
-    id: props.id,
-  })
+const BoardCell = ({ id, children }: Props) => {
+  const { isOver, setNodeRef } = useDroppable({ id })
 
   return (
-    <div ref={setNodeRef} className={`h-20 w-20 border text-center ${isOver ? 'text-primary' : 'text-base-300'}`}>
-      {props.children}
+    <div ref={setNodeRef} className={`h-20 w-20 border text-center odd:bg-primary ${isOver ? 'bg-accent odd:bg-accent' : ''}`}>
+      { children }
     </div>
   )
 }

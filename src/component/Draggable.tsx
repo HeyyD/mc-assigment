@@ -17,7 +17,7 @@ export function Draggable(props: Props) {
   }
 
   return (
-    <button ref={setNodeRef} style={style} className="border" {...listeners} {...attributes}>
+    <button ref={setNodeRef} style={style} className="border cursor-grab active:cursor-grabbing" {...listeners} {...attributes}>
       {props.children}
     </button>
   )
