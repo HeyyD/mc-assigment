@@ -1,7 +1,8 @@
 import { DndContext } from '@dnd-kit/core'
 import React from 'react'
 
-import { Droppable } from './Droppable'
+import BoardCell from './BoardCell'
+import { Draggable } from './Draggable'
 
 type Props = {
   width: number,
@@ -15,9 +16,9 @@ const Board = ({ width, height }: Props) => {
     <DndContext>
       <div className={`grid w-fit grid-cols-${width}`}>
         {elements.map((e, index) => (
-          <Droppable key={index} id={String(index)}>
+          <BoardCell key={index} id={String(index)}>
             {index}
-          </Droppable>
+          </BoardCell>
         ))}
       </div>
     </DndContext>

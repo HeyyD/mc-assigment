@@ -6,7 +6,7 @@ type Props = {
   id: string
   children: React.ReactNode
 }
-export function Droppable(props: Props) {
+const BoardCell = (props: Props) => {
   const { isOver, setNodeRef } = useDroppable({
     id: props.id,
   })
@@ -17,3 +17,5 @@ export function Droppable(props: Props) {
     </div>
   )
 }
+
+export default BoardCell

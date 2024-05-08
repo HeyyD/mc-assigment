@@ -2,8 +2,8 @@
 import { DndContext } from '@dnd-kit/core'
 import React, { useEffect, useState } from 'react'
 
+import BoardCell from './BoardCell'
 import { Draggable } from './Draggable'
-import { Droppable } from './Droppable'
 
 function Example() {
   const [parent, setParent] = useState(null)
@@ -17,9 +17,9 @@ function Example() {
   return (
     <DndContext onDragEnd={handleDragEnd}>
       {!parent ? draggable : null}
-      <Droppable id="droppable">
+      <BoardCell id="droppable">
         {parent === 'droppable' ? draggable : 'Drop here'}
-      </Droppable>
+      </BoardCell>
     </DndContext>
   )
 
