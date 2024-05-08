@@ -4,8 +4,8 @@ import './App.css'
 
 function App() {
   return (
-    <div>
-      <div className="font-bold">HELLO WORLD</div>
+    <div data-theme="pastel">
+      <div className="text-primary font-bold">HELLO WORLD</div>
     </div>
   )
 }
