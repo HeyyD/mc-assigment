@@ -1,5 +1,5 @@
-import { DndContext } from '@dnd-kit/core'
-import React from 'react'
+import { DndContext, DragEndEvent } from '@dnd-kit/core'
+import React, { useEffect, useState } from 'react'
 
 import BoardCell from './BoardCell'
 import { Draggable } from './Draggable'
@@ -10,20 +10,45 @@ type Props = {
 }
 const Board = ({ width, height }: Props) => {
 
-  const elements = [...Array(width * height)].map(() => Array(width).fill(null))
+  const [elements, setElements] = useState(new Array(width * height).fill(null))
+
+  useEffect(() => {
+    elements[0] = 1
+
+    setElements([...elements])
+  }, [])
+
+  const handleDragEnd = (event: DragEndEvent) => {
+    const { over, active } = event
+
+    if (over) {
+      const index = elements.indexOf(+active.id)
+      if (index > -1) {
+        elements[index] = null
+      }
+
+      elements[+over.id] = +active.id
+      setElements([...elements])
+    }
+  }
+
+  const createDragable = (id: number) => {
+    return (
+      <Draggable id={id}>
+        Drag me
+      </Draggable>
+    )
+  }
 
   return (
-    <DndContext>
+    <DndContext onDragEnd={handleDragEnd}>
       <div className={`grid w-fit grid-cols-${width}`}>
         {elements.map((e, index) => (
-          <BoardCell key={index} id={String(index)}>
-            {index}
+          <BoardCell key={index} id={index}>
+            { e ? createDragable(e) : null }
           </BoardCell>
         ))}
       </div>
-      <Draggable id="draggable">
-        Drag me
-      </Draggable>
     </DndContext>
   )
 }

@@ -4,13 +4,12 @@ import { CSS } from '@dnd-kit/utilities'
 import React from 'react'
 
 type Props = {
-  id: string
+  id: number
   children: React.ReactNode
 }
-export function Draggable(props: Props) {
-  const { attributes, listeners, setNodeRef, transform } = useDraggable({
-    id: props.id,
-  })
+export function Draggable({ id, children }: Props) {
+  const { attributes, listeners, setNodeRef, transform } = useDraggable({ id })
+
   const style = {
     // Outputs `translate3d(x, y, 0)`
     transform: CSS.Translate.toString(transform),
@@ -18,7 +17,7 @@ export function Draggable(props: Props) {
 
   return (
     <button ref={setNodeRef} style={style} className="border cursor-grab active:cursor-grabbing" {...listeners} {...attributes}>
-      {props.children}
+      { children }
     </button>
   )
 }

@@ -3,7 +3,7 @@ import { useDroppable } from '@dnd-kit/core'
 import React from 'react'
 
 type Props = {
-  id: string
+  id: number
   children: React.ReactNode
 }
 const BoardCell = ({ id, children }: Props) => {

@@ -9,7 +9,7 @@ function Example() {
   const [parent, setParent] = useState(null)
 
   const draggable = (
-    <Draggable id="draggable">
+    <Draggable id={1}>
       Go ahead, drag me.
     </Draggable>
   )
@@ -17,7 +17,7 @@ function Example() {
   return (
     <DndContext onDragEnd={handleDragEnd}>
       {!parent ? draggable : null}
-      <BoardCell id="droppable">
+      <BoardCell id={1}>
         {parent === 'droppable' ? draggable : 'Drop here'}
       </BoardCell>
     </DndContext>
