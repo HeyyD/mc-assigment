@@ -12,7 +12,7 @@ export function Droppable(props: Props) {
   })
 
   return (
-    <div ref={setNodeRef} className={`h-96 w-96 border text-center ${isOver ? 'text-primary' : 'text-base-300'}`}>
+    <div ref={setNodeRef} className={`h-20 w-20 border text-center ${isOver ? 'text-primary' : 'text-base-300'}`}>
       {props.children}
     </div>
   )
