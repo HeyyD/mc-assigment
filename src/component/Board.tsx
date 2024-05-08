@@ -10,25 +10,28 @@ type Props = {
 }
 const Board = ({ width, height }: Props) => {
 
-  const [elements, setElements] = useState(new Array(width * height).fill(null))
+  const [items, setItems] = useState(new Array(width * height).fill(null))
 
   useEffect(() => {
-    elements[0] = 1
+    items[0] = 1
 
-    setElements([...elements])
+    setItems([...items])
   }, [])
+
+  const moveDraggable = (itemId: number, cellId: number) => {
+    const index = items.indexOf(itemId)
+    if (index > -1) {
+      items[index] = null
+    }
+
+    items[cellId] = itemId
+    setItems([...items])
+  }
 
   const handleDragEnd = (event: DragEndEvent) => {
     const { over, active } = event
-
     if (over) {
-      const index = elements.indexOf(+active.id)
-      if (index > -1) {
-        elements[index] = null
-      }
-
-      elements[+over.id] = +active.id
-      setElements([...elements])
+      moveDraggable(+active.id, +over.id)
     }
   }
 
@@ -43,9 +46,9 @@ const Board = ({ width, height }: Props) => {
   return (
     <DndContext onDragEnd={handleDragEnd}>
       <div className={`grid w-fit grid-cols-${width}`}>
-        {elements.map((e, index) => (
+        {items.map((itemId, index) => (
           <BoardCell key={index} id={index}>
-            { e ? createDragable(e) : null }
+            { itemId ? createDragable(itemId) : null }
           </BoardCell>
         ))}
       </div>
