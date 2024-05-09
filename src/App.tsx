@@ -1,22 +1,23 @@
-import React, { createContext, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import './App.css'
 import Board from './component/Board'
 import CellPanel from './component/CellPanel'
-import { BoardData } from './model/boardData'
-
-export const SelectedCell = createContext<number | null>(null)
+import { BoardData, Item } from './model/boardData'
 
 function App() {
+
   const [ data, setData ] = useState<BoardData | null>(null)
 
   const [ selectedCell, setSelectedCell ] = useState<number | null>(null)
+  const [ items, setItems ] = useState<Item[]>([])
 
   useEffect(() => {
     fetch('/assigment.json')
       .then((response) => response.json())
       .then((data) => {
         setData(data)
+        setItems(data.items)
       })
   }, [])
 
@@ -28,19 +29,21 @@ function App() {
     setSelectedCell(cell)
   }
 
+  const handleUpdateBoard = (items: Item[]) => {
+    setItems([...items])
+  }
+
   return (
-    <SelectedCell.Provider value={selectedCell}>
-      <div data-theme="pastel" className="h-screen w-screen bg-base-200">
-        <div className="flex">
-          <div>
-            <Board width={data.width} height={data.height} items={data.items} onSelectCell={handleSelectCell} />
-          </div>
-          <div className="p-3">
-            <CellPanel />
-          </div>
+    <div data-theme="pastel" className="h-screen w-screen bg-base-200">
+      <div className="flex">
+        <div>
+          <Board width={data.width} height={data.height} items={items} onSelectCell={handleSelectCell} onUpdateBoard={handleUpdateBoard} />
+        </div>
+        <div className="p-3">
+          <CellPanel item={selectedCell !== null ? items[selectedCell] : null} />
         </div>
       </div>
-    </SelectedCell.Provider>
+    </div>
   )
 }
 

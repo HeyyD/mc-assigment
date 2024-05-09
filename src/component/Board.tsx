@@ -10,9 +10,10 @@ type Props = {
   width: number,
   height: number,
   items: Item[],
-  onSelectCell: (cell: number) => void
+  onSelectCell: (cell: number) => void,
+  onUpdateBoard: (items: Item[]) => void
 }
-const Board = ({ width, height, items, onSelectCell }: Props) => {
+const Board = ({ width, height, items, onSelectCell, onUpdateBoard }: Props) => {
 
   const initBoardData = () => {
     const board = new Array(width * height).fill(null)
@@ -38,6 +39,7 @@ const Board = ({ width, height, items, onSelectCell }: Props) => {
 
     setBoard([...board])
     onSelectCell(cellTo)
+    onUpdateBoard(board.map(item => item ? item.item : null))
   }
 
   const handleDragEnd = (event: DragEndEvent) => {
