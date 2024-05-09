@@ -24,7 +24,8 @@ export function Draggable({ id, item }: Props) {
         <div className={`${item.isInsideBubble ? 'rounded-full ring ring-neutral ring-inset ring-offset-2' : ''} ${ item.visibility === 'hidden' ? 'text-secondary bg-gray-950/50' : 'text-primary-content'}`}>
           <div className="flex h-full w-full justify-center text-center">
             <div className="p-2 w-full break-words my-auto">
-              { item.chainId }
+              <div>{ item.chainId }</div>
+              <div className="badge badge-secondary badge-sm mt-1">{ item.itemLevel }</div>
             </div>
           </div>
         </div>

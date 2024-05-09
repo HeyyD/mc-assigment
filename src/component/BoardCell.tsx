@@ -10,7 +10,7 @@ const BoardCell = ({ id, children }: Props) => {
   const { isOver, setNodeRef } = useDroppable({ id })
 
   return (
-    <div ref={setNodeRef} className={`h-24 w-24 text-center border-2 hover:border-secondary ${isOver ? 'bg-accent' : 'odd:bg-primary'}`}>
+    <div ref={setNodeRef} className={`h-24 w-24 text-center border-2 hover:border-secondary ${isOver && 'bg-accent'}`}>
       { children }
     </div>
   )
