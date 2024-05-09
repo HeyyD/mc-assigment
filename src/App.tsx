@@ -1,15 +1,17 @@
-import React, { useEffect, useState } from 'react'
+import React, { createContext, useEffect, useState } from 'react'
 
 import './App.css'
 import Board from './component/Board'
 import CellPanel from './component/CellPanel'
 import { BoardData, Item } from './model/boardData'
 
+export const SelectedCellContext = createContext<number>(0)
+
 function App() {
 
   const [ data, setData ] = useState<BoardData | null>(null)
 
-  const [ selectedCell, setSelectedCell ] = useState<number | null>(null)
+  const [ selectedCell, setSelectedCell ] = useState<number>(0)
   const [ items, setItems ] = useState<Item[]>([])
 
   useEffect(() => {
@@ -34,16 +36,18 @@ function App() {
   }
 
   return (
-    <div data-theme="pastel" className="h-screen w-screen bg-base-200">
-      <div className="flex">
-        <div>
-          <Board width={data.width} height={data.height} items={items} onSelectCell={handleSelectCell} onUpdateBoard={handleUpdateBoard} />
-        </div>
-        <div className="p-3">
-          <CellPanel item={selectedCell !== null ? items[selectedCell] : null} />
+    <SelectedCellContext.Provider value={selectedCell}>
+      <div data-theme="pastel" className="h-screen w-screen bg-base-200">
+        <div className="flex">
+          <div>
+            <Board width={data.width} height={data.height} items={items} onSelectCell={handleSelectCell} onUpdateBoard={handleUpdateBoard} />
+          </div>
+          <div className="p-3">
+            <CellPanel item={items[selectedCell]} />
+          </div>
         </div>
       </div>
-    </div>
+    </SelectedCellContext.Provider>
   )
 }
 
