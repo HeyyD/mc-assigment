@@ -27,8 +27,10 @@ const Board = ({ width, height, items }: Props) => {
   const moveDraggable = (itemId: string, cellTo: number) => {
     const cellFrom = board.findIndex(item => item && item.id === itemId)
     const item = board[cellFrom]
+    const overlappingItem = board[cellTo]
+
     if (cellFrom > -1) {
-      board[cellFrom] = null
+      board[cellFrom] = overlappingItem ? overlappingItem : null
     }
 
     board[cellTo] = item
