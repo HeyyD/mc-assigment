@@ -6,7 +6,7 @@ import React from 'react'
 import { Item } from '../model/boardData'
 
 type Props = {
-  id: number,
+  id: string,
   item: Item
 }
 export function Draggable({ id, item }: Props) {
@@ -19,7 +19,7 @@ export function Draggable({ id, item }: Props) {
 
   return (
     <div ref={setNodeRef} style={style} className="border cursor-grab text-xs active:cursor-grabbing" {...listeners} {...attributes}>
-      { item.itemType }
+      { item.itemId }
     </div>
   )
 }
