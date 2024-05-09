@@ -43,7 +43,7 @@ function App() {
             <Board width={data.width} height={data.height} items={items} onSelectCell={handleSelectCell} onUpdateBoard={handleUpdateBoard} />
           </div>
           <div className="p-3">
-            <CellPanel item={items[selectedCell]} />
+            <CellPanel key={selectedCell} item={items[selectedCell]}/>
           </div>
         </div>
       </div>
