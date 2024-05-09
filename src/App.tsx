@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 
 import './App.css'
 import Board from './component/Board'
+import CellPanel from './component/CellPanel'
 import { BoardData } from './model/boardData'
 
 function App() {
@@ -22,7 +23,14 @@ function App() {
 
   return (
     <div data-theme="pastel" className="h-screen w-screen bg-base-200">
-      <Board width={data.width} height={data.height} items={data.items} />
+      <div className="flex">
+        <div>
+          <Board width={data.width} height={data.height} items={data.items} />
+        </div>
+        <div className="p-3">
+          <CellPanel />
+        </div>
+      </div>
     </div>
   )
 }
