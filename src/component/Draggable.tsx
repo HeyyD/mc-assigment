@@ -3,11 +3,13 @@ import { useDraggable } from '@dnd-kit/core'
 import { CSS } from '@dnd-kit/utilities'
 import React from 'react'
 
+import { Item } from '../model/boardData'
+
 type Props = {
-  id: number
-  children: React.ReactNode
+  id: number,
+  item: Item
 }
-export function Draggable({ id, children }: Props) {
+export function Draggable({ id, item }: Props) {
   const { attributes, listeners, setNodeRef, transform } = useDraggable({ id })
 
   const style = {
@@ -16,8 +18,8 @@ export function Draggable({ id, children }: Props) {
   }
 
   return (
-    <button ref={setNodeRef} style={style} className="border cursor-grab active:cursor-grabbing" {...listeners} {...attributes}>
-      { children }
-    </button>
+    <div ref={setNodeRef} style={style} className="border cursor-grab text-xs active:cursor-grabbing" {...listeners} {...attributes}>
+      { item.itemType }
+    </div>
   )
 }

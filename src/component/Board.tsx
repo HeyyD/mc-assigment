@@ -16,7 +16,7 @@ const Board = ({ width, height, items: data }: Props) => {
   const initBoardData = () => {
     const board = new Array(width * height).fill(null)
     data.forEach((item, index) => {
-      board[index] = item ? item.itemId : null
+      board[index] = item ? item : null
     })
 
     return board
@@ -41,20 +41,16 @@ const Board = ({ width, height, items: data }: Props) => {
     }
   }
 
-  const createDragable = (id: number) => {
-    return (
-      <Draggable id={id}>
-        { id }
-      </Draggable>
-    )
+  const createDragable = (item: Item) => {
+    return <Draggable id={item.itemId} item={item} />
   }
 
   return (
     <DndContext onDragEnd={handleDragEnd}>
       <div style={{ gridTemplateColumns: `repeat(${width}, minmax(0, 1fr))` }} className="grid w-fit">
-        {items.map((itemId, index) => (
+        {items.map((item, index) => (
           <BoardCell key={index} id={index}>
-            { itemId ? createDragable(itemId) : null }
+            { item ? createDragable(item) : null }
           </BoardCell>
         ))}
       </div>
