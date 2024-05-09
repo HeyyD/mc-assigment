@@ -4,7 +4,7 @@ import React, { useState } from 'react'
 import { Item } from '../model/boardData'
 
 import BoardCell from './BoardCell'
-import { Draggable } from './Draggable'
+import Draggable from './Draggable'
 
 type Props = {
   width: number,
