@@ -22,7 +22,7 @@ function App() {
 
   return (
     <div data-theme="pastel" className="h-screen w-screen bg-base-200">
-      <Board width={data.width} height={data.height}/>
+      <Board width={data.width} height={data.height} items={data.items} />
     </div>
   )
 }

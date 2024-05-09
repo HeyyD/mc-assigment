@@ -1,5 +1,7 @@
 import { DndContext, DragEndEvent } from '@dnd-kit/core'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
+
+import { Item } from '../model/boardData'
 
 import BoardCell from './BoardCell'
 import { Draggable } from './Draggable'
@@ -7,16 +9,20 @@ import { Draggable } from './Draggable'
 type Props = {
   width: number,
   height: number,
+  items: Item[]
 }
-const Board = ({ width, height }: Props) => {
+const Board = ({ width, height, items: data }: Props) => {
 
-  const [items, setItems] = useState(new Array(width * height).fill(null))
+  const initBoardData = () => {
+    const board = new Array(width * height).fill(null)
+    data.forEach((item, index) => {
+      board[index] = item ? item.itemId : null
+    })
 
-  useEffect(() => {
-    items[0] = 1
+    return board
+  }
 
-    setItems([...items])
-  }, [])
+  const [items, setItems] = useState(() => initBoardData())
 
   const moveDraggable = (itemId: number, cellId: number) => {
     const index = items.indexOf(itemId)
@@ -38,7 +44,7 @@ const Board = ({ width, height }: Props) => {
   const createDragable = (id: number) => {
     return (
       <Draggable id={id}>
-        Drag me
+        { id }
       </Draggable>
     )
   }
