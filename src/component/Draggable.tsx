@@ -19,8 +19,10 @@ export function Draggable({ id, item }: Props) {
 
   return (
     <div ref={setNodeRef} style={style} className="border h-full cursor-grab text-xs break-words active:cursor-grabbing" {...listeners} {...attributes}>
-      <div className="m-1">
-        { item.chainId }
+      <div className={`h-full w-full ${ item.visibility === 'hidden' ? 'text-secondary bg-gray-950/50' : 'text-primary-content'}`}>
+        <div className="p-1">
+          { item.chainId }
+        </div>
       </div>
     </div>
   )
