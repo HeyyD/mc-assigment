@@ -45,7 +45,7 @@ const Board = ({ width, height }: Props) => {
 
   return (
     <DndContext onDragEnd={handleDragEnd}>
-      <div className={`grid w-fit grid-cols-${width}`}>
+      <div style={{ gridTemplateColumns: `repeat(${width}, minmax(0, 1fr))` }} className="grid w-fit">
         {items.map((itemId, index) => (
           <BoardCell key={index} id={index}>
             { itemId ? createDragable(itemId) : null }
