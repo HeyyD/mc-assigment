@@ -1,11 +1,16 @@
-import React from 'react'
+import React, { useContext } from 'react'
+
+import { SelectedCell } from '../App'
 
 const CellPanel = () => {
+
+  const cell = useContext(SelectedCell)
+
   return (
     <div className="card w-96 bg-base-100 shadow-xl">
       <div className="card-body">
         <h2 className="card-title"></h2>
-        <p>Select a cell or drag and drop items to arrange them</p>
+        <p>{ cell ? cell : 'Select a cell or drag and drop items to rearrange them.'}</p>
       </div>
     </div>
   )

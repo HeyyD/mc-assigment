@@ -9,9 +9,10 @@ import Draggable from './Draggable'
 type Props = {
   width: number,
   height: number,
-  items: Item[]
+  items: Item[],
+  onSelectCell: (cell: number) => void
 }
-const Board = ({ width, height, items }: Props) => {
+const Board = ({ width, height, items, onSelectCell }: Props) => {
 
   const initBoardData = () => {
     const board = new Array(width * height).fill(null)
@@ -34,7 +35,9 @@ const Board = ({ width, height, items }: Props) => {
     }
 
     board[cellTo] = item
+
     setBoard([...board])
+    onSelectCell(cellTo)
   }
 
   const handleDragEnd = (event: DragEndEvent) => {
