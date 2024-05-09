@@ -57,9 +57,11 @@ const Board = ({ width, height, items, onSelectCell, onUpdateBoard }: Props) => 
     <DndContext onDragEnd={handleDragEnd}>
       <div style={{ gridTemplateColumns: `repeat(${width}, minmax(0, 1fr))` }} className="grid w-fit">
         {board.map((item, index) => (
-          <BoardCell key={index} id={index}>
-            { item ? createDragable(item.id, item.item) : null }
-          </BoardCell>
+          <div onClick={() => onSelectCell(index)} key={index}>
+            <BoardCell id={index}>
+              { item ? createDragable(item.id, item.item) : null }
+            </BoardCell>
+          </div>
         ))}
       </div>
     </DndContext>
