@@ -99,7 +99,12 @@ function App() {
         <div data-theme="pastel" className="h-screen w-screen bg-base-200">
           <div className="flex">
             <div>
-              <Board width={data.width} board={board} onSelectCell={handleSelectCell} onMoveDraggable={handleMoveDraggable} />
+              <Board
+                width={data.width}
+                board={board}
+                onSelectCell={handleSelectCell}
+                onMoveDraggable={handleMoveDraggable}
+              />
             </div>
             <div className="p-3 grow max-w-[675px]">
               <CellPanel
