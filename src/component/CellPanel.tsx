@@ -1,5 +1,5 @@
 import moment from 'moment'
-import React, { FormEvent, MouseEvent, useState } from 'react'
+import React, { ChangeEvent, FormEvent, MouseEvent, useState } from 'react'
 import ReactDatePicker from 'react-datepicker'
 
 import { BoardItem, Item } from '../model/boardData'
@@ -72,10 +72,29 @@ const CellPanel = ({ boardItem, onUpdateItem, onDeleteItem }: Props) => {
     }
   }
 
+  const handleCreateItem = (event: ChangeEvent<HTMLSelectElement>) => {
+    const value = event.target.value
+    const [ chainId, itemLevel ] = value.split('_')
+    const itemId = 1169 + Number(itemLevel) // Just a mock logic to generate the item ID to have some similar data
+
+    const item: Item = {
+      itemId: itemId,
+      itemType: event.target.value,
+      chainId: chainId,
+      itemLevel: Number(itemLevel),
+      visibility: 'visible',
+      isInsideBubble: false,
+      createdAt: new Date().toISOString(),
+      pausedUntil: null,
+    }
+
+    console.log(item)
+  }
+
   const addItemForm = () => {
     return (
       <LabeledFormElement label="Select an item to create">
-        <select className="select select-bordered" defaultValue={''}>
+        <select className="select select-bordered" defaultValue={''} onChange={handleCreateItem}>
           <option value={''}>NONE</option>
           {CREATABLE_ITEMS.map((item, index) => (
             <option key={index} value={item}>{item}</option>
