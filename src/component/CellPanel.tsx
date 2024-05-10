@@ -38,6 +38,13 @@ const CellPanel = ({ boardItem, onUpdateItem, onDeleteItem }: Props) => {
     }
   }
 
+  const handlePausedUntilChange = (date: Date | null) => {
+    setPausedUntil(date)
+    if (item) {
+      onUpdateItem(boardItem.id, { ...item, pausedUntil: date?.toISOString() ?? null })
+    }
+  }
+
   const handleFormChange = (event: FormEvent) => {
     const form = event.currentTarget as unknown as FormData
     if (item) {
@@ -93,11 +100,12 @@ const CellPanel = ({ boardItem, onUpdateItem, onDeleteItem }: Props) => {
           </LabeledFormElement>
           <LabeledFormElement label="Paused Until">
             <ReactDatePicker
+              id="pausedUntil"
               className="input input-bordered input-sm cursor-pointer"
               dateFormat="YYYY-MM-dd HH:mm:ss"
               placeholderText="Select time"
               selected={pausedUntil}
-              onChange={setPausedUntil}
+              onChange={handlePausedUntilChange}
               isClearable
               showTimeSelect />
           </LabeledFormElement>
