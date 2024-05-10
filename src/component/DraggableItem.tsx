@@ -4,7 +4,7 @@ import { CSS } from '@dnd-kit/utilities'
 import React, { useContext } from 'react'
 
 import { SelectedItemContext } from '../App'
-import { ItemData } from '../model/boardData'
+import { ItemData } from '../model'
 
 type Props = {
   id: number,

@@ -3,7 +3,7 @@ import React, { ChangeEvent, FormEvent, MouseEvent, useContext, useState } from 
 import ReactDatePicker from 'react-datepicker'
 
 import { SelectedItemContext } from '../App'
-import { ItemData } from '../model/boardData'
+import { ItemData } from '../model'
 
 import LabeledFormElement from './LabeledFormElement'
 

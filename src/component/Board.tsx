@@ -1,7 +1,7 @@
 import { DndContext, DragEndEvent } from '@dnd-kit/core'
 import React  from 'react'
 
-import { Item, ItemData } from '../model/boardData'
+import { Item, ItemData } from '../model'
 
 import BoardCell from './BoardCell'
 import DraggableItem from './DraggableItem'
