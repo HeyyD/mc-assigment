@@ -4,7 +4,7 @@ import React  from 'react'
 import { BoardItem, Item } from '../model/boardData'
 
 import BoardCell from './BoardCell'
-import Draggable from './Draggable'
+import DraggableItem from './DraggableItem'
 
 type Props = {
   width: number,
@@ -22,7 +22,7 @@ const Board = ({ width, board, onSelectCell, onMoveDraggable }: Props) => {
   }
 
   const createDragable = (id: number, item: Item) => {
-    return <Draggable id={id} item={item} />
+    return <DraggableItem id={id} item={item} />
   }
 
   return (

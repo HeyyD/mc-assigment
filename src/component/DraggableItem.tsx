@@ -9,7 +9,7 @@ type Props = {
   id: number,
   item: Item
 }
-const Draggable = ({ id, item }: Props) => {
+const DraggableItem = ({ id, item }: Props) => {
   const { attributes, listeners, setNodeRef, transform } = useDraggable({ id })
 
   const style = {
@@ -33,4 +33,4 @@ const Draggable = ({ id, item }: Props) => {
   )
 }
 
-export default Draggable
+export default DraggableItem
