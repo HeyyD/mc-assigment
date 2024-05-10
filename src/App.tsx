@@ -25,17 +25,21 @@ function App() {
     return board[selectedCell] ?? null
   }
 
+  const initBoardData = (data: BoardData) => {
+    const board = new Array(data.width * data.height).fill(null)
+    data.items.forEach((item, index) => {
+      board[index] = item ? { id: generateId(), item } : null
+    })
+
+    setData(data)
+    setBoard(board)
+    setSelectedItem(getSelectedItem())
+  }
+
   useEffect(() => {
     fetch('/assigment.json')
       .then((response) => response.json())
-      .then((data: BoardData) => {
-        setData(data)
-        const board = new Array(data.width * data.height).fill(null)
-        data.items.forEach((item, index) => {
-          board[index] = item ? { id: generateId(), item } : null
-        })
-        setBoard(board)
-      })
+      .then(initBoardData)
   }, [])
 
   useEffect(() => setSelectedItem(getSelectedItem()), [selectedCell, board])
