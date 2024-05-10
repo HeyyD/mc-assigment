@@ -4,12 +4,7 @@ import './App.css'
 import Board from './component/Board'
 import CellPanel from './component/CellPanel'
 import { BoardData, Item, ItemData } from './model'
-import { SelectedCellContext, SelectedItemContext } from './utils'
-
-let CURRENT_ID = 1
-const generateId = () => {
-  return CURRENT_ID++
-}
+import { generateId, SelectedCellContext, SelectedItemContext } from './utils'
 
 function App() {
 
