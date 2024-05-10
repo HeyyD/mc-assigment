@@ -1,5 +1,5 @@
 import moment from 'moment'
-import React, { MouseEvent, useState } from 'react'
+import React, { FormEvent, MouseEvent, useState } from 'react'
 import ReactDatePicker from 'react-datepicker'
 
 import { BoardItem } from '../model/boardData'
@@ -8,6 +8,11 @@ import LabeledFormElement from './LabeledFormElement'
 
 import 'react-datepicker/dist/react-datepicker.css'
 
+type FormData = {
+  visibility: HTMLInputElement,
+  isInsideBubble: HTMLInputElement,
+  pausedUntil: HTMLInputElement
+}
 type Props = {
   boardItem: BoardItem | null,
   onDeleteItem: (itemId: number) => void
@@ -32,6 +37,12 @@ const CellPanel = ({ boardItem, onDeleteItem }: Props) => {
     }
   }
 
+  const handleSubmit = (event: FormEvent) => {
+    event.preventDefault()
+    const form = event.currentTarget as unknown as FormData
+    console.log(form.isInsideBubble.checked, form.visibility.checked, pausedUntil)
+  }
+
   const addItemForm = () => {
     return (
       <div>CREATE</div>
@@ -47,7 +58,7 @@ const CellPanel = ({ boardItem, onDeleteItem }: Props) => {
     const { itemId, itemType, chainId, itemLevel, visibility, isInsideBubble, createdAt } = item
 
     return (
-      <form>
+      <form onSubmit={handleSubmit}>
         <div className="grid gap-3 grid-cols-2">
           <LabeledFormElement label="Item ID">
             <input className="input input-bordered input-sm cursor-not-allowed" readOnly defaultValue={itemId} />
@@ -66,10 +77,10 @@ const CellPanel = ({ boardItem, onDeleteItem }: Props) => {
           </LabeledFormElement>
           <div className="divider col-span-2"></div>
           <LabeledFormElement label="Visible">
-            <input type="checkbox" className="toggle" defaultChecked={visibility === 'visible'} />
+            <input id="visibility" type="checkbox" className="toggle" defaultChecked={visibility === 'visible'} />
           </LabeledFormElement>
           <LabeledFormElement label="Inside Bubble">
-            <input type="checkbox" className="toggle" defaultChecked={isInsideBubble} />
+            <input id="isInsideBubble" type="checkbox" className="toggle" defaultChecked={isInsideBubble} />
           </LabeledFormElement>
           <LabeledFormElement label="Paused Until">
             <ReactDatePicker
@@ -78,11 +89,12 @@ const CellPanel = ({ boardItem, onDeleteItem }: Props) => {
               placeholderText="Select time"
               selected={pausedUntil}
               onChange={setPausedUntil}
+              isClearable
               showTimeSelect />
           </LabeledFormElement>
           <div className="divider col-span-2"></div>
           <div className="col-span-2">
-            <button className="btn btn-primary">Save</button>
+            <button type="submit" className="btn btn-primary">Save</button>
             <button className="btn btn-error mx-3" onClick={handleDelete}>Delete</button>
           </div>
         </div>
