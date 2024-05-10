@@ -34,43 +34,43 @@ type Props = {
 }
 const CellPanel = ({ onCreateItem, onUpdateItem, onDeleteItem }: Props) => {
 
-  const boardItem = useContext(SelectedItemContext)
-  const item = boardItem?.data
+  const item = useContext(SelectedItemContext)
+  const data = item?.data
 
   const initPausedUntil = () => {
-    if (!item) {
+    if (!data) {
       return null
     }
-    return item.pausedUntil ? new Date(item.pausedUntil) : null
+    return data.pausedUntil ? new Date(data.pausedUntil) : null
   }
 
   const [ pausedUntil, setPausedUntil ] = useState<Date | null>(() => initPausedUntil())
 
   const handleDelete = (event: MouseEvent) => {
     event.preventDefault()
-    if (boardItem) {
-      onDeleteItem(boardItem.id)
+    if (item) {
+      onDeleteItem(item.id)
     }
   }
 
   const handlePausedUntilChange = (date: Date | null) => {
     setPausedUntil(date)
-    if (item) {
-      onUpdateItem(boardItem.id, { ...item, pausedUntil: date?.toISOString() ?? null })
+    if (data) {
+      onUpdateItem(item.id, { ...data, pausedUntil: date?.toISOString() ?? null })
     }
   }
 
   const handleFormChange = (event: FormEvent) => {
     const form = event.currentTarget as unknown as FormData
-    if (item) {
+    if (data) {
       const updatedItem: ItemData = {
-        ...item,
+        ...data,
         visibility: form.visibility.checked ? 'visible' : 'hidden',
         isInsideBubble: form.isInsideBubble.checked,
         pausedUntil: pausedUntil?.toISOString() ?? null,
       }
 
-      onUpdateItem(boardItem.id, updatedItem)
+      onUpdateItem(item.id, updatedItem)
     }
   }
 
@@ -96,7 +96,7 @@ const CellPanel = ({ onCreateItem, onUpdateItem, onDeleteItem }: Props) => {
     onCreateItem(item)
   }
 
-  const addItemForm = () => {
+  const createItemSelector = () => {
     return (
       <LabeledFormElement label="Select an item to create">
         <select className="select select-bordered" defaultValue={''} onChange={handleCreateItem}>
@@ -110,11 +110,11 @@ const CellPanel = ({ onCreateItem, onUpdateItem, onDeleteItem }: Props) => {
   }
 
   const updateItemForm = () => {
-    if (!item) {
+    if (!data) {
       throw Error('Trying to update an item that does not exist.')
     }
 
-    const { itemId, itemType, chainId, itemLevel, visibility, isInsideBubble, createdAt } = item
+    const { itemId, itemType, chainId, itemLevel, visibility, isInsideBubble, createdAt } = data
 
     return (
       <form onChange={handleFormChange}>
@@ -164,7 +164,7 @@ const CellPanel = ({ onCreateItem, onUpdateItem, onDeleteItem }: Props) => {
   return (
     <div className="card w-full bg-base-100 shadow-xl">
       <div className="card-body">
-        { boardItem ? updateItemForm() : addItemForm() }
+        { item ? updateItemForm() : createItemSelector() }
       </div>
     </div>
   )
