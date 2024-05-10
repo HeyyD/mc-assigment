@@ -3,23 +3,34 @@ import React, { createContext, useEffect, useState } from 'react'
 import './App.css'
 import Board from './component/Board'
 import CellPanel from './component/CellPanel'
-import { BoardData, Item } from './model/boardData'
+import { BoardData, BoardItem, Item } from './model/boardData'
 
 export const SelectedCellContext = createContext<number>(0)
+
+let CURRENT_ID = 1
+const generateId = () => {
+  return CURRENT_ID++
+}
 
 function App() {
 
   const [ data, setData ] = useState<BoardData | null>(null)
 
   const [ selectedCell, setSelectedCell ] = useState<number>(0)
-  const [ items, setItems ] = useState<Item[]>([])
+  const [ items, setItems ] = useState<(Item | null)[]>([])
+  const [ board, setBoard ] = useState<(BoardItem | null)[]>([])
 
   useEffect(() => {
     fetch('/assigment.json')
       .then((response) => response.json())
-      .then((data) => {
+      .then((data: BoardData) => {
         setData(data)
         setItems(data.items)
+        const board = new Array(data.width * data.height).fill(null)
+        data.items.forEach((item, index) => {
+          board[index] = item ? { id: generateId(), item } : null
+        })
+        setBoard(board)
       })
   }, [])
 
@@ -31,8 +42,8 @@ function App() {
     setSelectedCell(cell)
   }
 
-  const handleUpdateBoard = (items: Item[]) => {
-    setItems([...items])
+  const handleUpdateBoard = (items: (BoardItem | null)[]) => {
+    setItems([...items.map(item => item ? item.item : null)])
   }
 
   return (
@@ -40,7 +51,7 @@ function App() {
       <div data-theme="pastel" className="h-screen w-screen bg-base-200">
         <div className="flex">
           <div>
-            <Board width={data.width} height={data.height} items={items} onSelectCell={handleSelectCell} onUpdateBoard={handleUpdateBoard} />
+            <Board width={data.width} items={board} onSelectCell={handleSelectCell} onUpdateBoard={handleUpdateBoard} />
           </div>
           <div className="p-3">
             <CellPanel key={selectedCell} item={items[selectedCell]}/>

@@ -6,7 +6,7 @@ import React from 'react'
 import { Item } from '../model/boardData'
 
 type Props = {
-  id: string,
+  id: number,
   item: Item
 }
 const Draggable = ({ id, item }: Props) => {

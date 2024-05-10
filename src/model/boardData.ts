@@ -14,3 +14,8 @@ export interface Item {
   itemLevel: number,
   isInsideBubble: boolean,
 }
+
+export interface BoardItem {
+  id: number
+  item: Item
+}
