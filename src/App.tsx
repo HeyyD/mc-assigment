@@ -3,7 +3,7 @@ import React, { createContext, useEffect, useState } from 'react'
 import './App.css'
 import Board from './component/Board'
 import CellPanel from './component/CellPanel'
-import { BoardData, BoardItem, Item } from './model/boardData'
+import { BoardData, BoardItem } from './model/boardData'
 
 export const SelectedCellContext = createContext<number>(0)
 
@@ -17,7 +17,6 @@ function App() {
   const [ data, setData ] = useState<BoardData | null>(null)
 
   const [ selectedCell, setSelectedCell ] = useState<number>(0)
-  const [ items, setItems ] = useState<(Item | null)[]>([])
   const [ board, setBoard ] = useState<(BoardItem | null)[]>([])
 
   useEffect(() => {
@@ -25,7 +24,6 @@ function App() {
       .then((response) => response.json())
       .then((data: BoardData) => {
         setData(data)
-        setItems(data.items)
         const board = new Array(data.width * data.height).fill(null)
         data.items.forEach((item, index) => {
           board[index] = item ? { id: generateId(), item } : null
@@ -43,7 +41,7 @@ function App() {
   }
 
   const handleUpdateBoard = (items: (BoardItem | null)[]) => {
-    setItems([...items.map(item => item ? item.item : null)])
+    setBoard([...items])
   }
 
   return (
@@ -54,7 +52,7 @@ function App() {
             <Board width={data.width} items={board} onSelectCell={handleSelectCell} onUpdateBoard={handleUpdateBoard} />
           </div>
           <div className="p-3">
-            <CellPanel key={selectedCell} item={items[selectedCell]}/>
+            <CellPanel key={board[selectedCell]?.id ?? null} item={board[selectedCell]?.item ?? null}/>
           </div>
         </div>
       </div>
