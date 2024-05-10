@@ -2,7 +2,7 @@
 import { useDroppable } from '@dnd-kit/core'
 import React, { useContext } from 'react'
 
-import { SelectedCellContext } from '../App'
+import { SelectedCellContext } from '../utils'
 
 type Props = {
   id: number

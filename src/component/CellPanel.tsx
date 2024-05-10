@@ -2,8 +2,8 @@ import moment from 'moment'
 import React, { ChangeEvent, FormEvent, MouseEvent, useContext, useState } from 'react'
 import ReactDatePicker from 'react-datepicker'
 
-import { SelectedItemContext } from '../App'
 import { ItemData } from '../model'
+import { SelectedItemContext } from '../utils'
 
 import LabeledFormElement from './LabeledFormElement'
 

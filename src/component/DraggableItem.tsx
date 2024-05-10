@@ -3,8 +3,8 @@ import { useDraggable } from '@dnd-kit/core'
 import { CSS } from '@dnd-kit/utilities'
 import React, { useContext } from 'react'
 
-import { SelectedItemContext } from '../App'
 import { ItemData } from '../model'
+import { SelectedItemContext } from '../utils'
 
 type Props = {
   id: number,

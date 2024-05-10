@@ -1,12 +1,10 @@
-import React, { createContext, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import './App.css'
 import Board from './component/Board'
 import CellPanel from './component/CellPanel'
 import { BoardData, Item, ItemData } from './model'
-
-export const SelectedCellContext = createContext<number>(0)
-export const SelectedItemContext = createContext<Item | null>(null)
+import { SelectedCellContext, SelectedItemContext } from './utils'
 
 let CURRENT_ID = 1
 const generateId = () => {
