@@ -9,10 +9,10 @@ import LabeledFormElement from './LabeledFormElement'
 import 'react-datepicker/dist/react-datepicker.css'
 
 type Props = {
-  item: BoardItem | null,
+  boardItem: BoardItem | null,
   onDeleteItem: (itemId: number) => void
 }
-const CellPanel = ({ item: boardItem, onDeleteItem }: Props) => {
+const CellPanel = ({ boardItem, onDeleteItem }: Props) => {
 
   const item = boardItem?.item
 
@@ -93,7 +93,7 @@ const CellPanel = ({ item: boardItem, onDeleteItem }: Props) => {
   return (
     <div className="card w-full bg-base-100 shadow-xl">
       <div className="card-body">
-        { item ? updateItemForm() : addItemForm() }
+        { boardItem ? updateItemForm() : addItemForm() }
       </div>
     </div>
   )

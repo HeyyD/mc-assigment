@@ -76,7 +76,7 @@ function App() {
             <Board width={data.width} board={board} onSelectCell={handleSelectCell} onMoveDraggable={handleMoveDraggable} />
           </div>
           <div className="p-3">
-            <CellPanel key={getSelectedItem()?.id} item={getSelectedItem()} onDeleteItem={handleDeleteItem}/>
+            <CellPanel key={getSelectedItem()?.id} boardItem={getSelectedItem()} onDeleteItem={handleDeleteItem}/>
           </div>
         </div>
       </div>
