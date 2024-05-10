@@ -2,7 +2,7 @@ import moment from 'moment'
 import React, { FormEvent, MouseEvent, useState } from 'react'
 import ReactDatePicker from 'react-datepicker'
 
-import { BoardItem } from '../model/boardData'
+import { BoardItem, Item } from '../model/boardData'
 
 import LabeledFormElement from './LabeledFormElement'
 
@@ -15,9 +15,10 @@ type FormData = {
 }
 type Props = {
   boardItem: BoardItem | null,
+  onUpdateItem: (itemId: number, item: Item) => void,
   onDeleteItem: (itemId: number) => void
 }
-const CellPanel = ({ boardItem, onDeleteItem }: Props) => {
+const CellPanel = ({ boardItem, onUpdateItem, onDeleteItem }: Props) => {
 
   const item = boardItem?.item
 
@@ -37,10 +38,18 @@ const CellPanel = ({ boardItem, onDeleteItem }: Props) => {
     }
   }
 
-  const handleSubmit = (event: FormEvent) => {
-    event.preventDefault()
+  const handleFormChange = (event: FormEvent) => {
     const form = event.currentTarget as unknown as FormData
-    console.log(form.isInsideBubble.checked, form.visibility.checked, pausedUntil)
+    if (item) {
+      const updatedItem: Item = {
+        ...item,
+        visibility: form.visibility.checked ? 'visible' : 'hidden',
+        isInsideBubble: form.isInsideBubble.checked,
+        pausedUntil: pausedUntil?.toISOString() ?? null,
+      }
+
+      onUpdateItem(boardItem.id, updatedItem)
+    }
   }
 
   const addItemForm = () => {
@@ -58,7 +67,7 @@ const CellPanel = ({ boardItem, onDeleteItem }: Props) => {
     const { itemId, itemType, chainId, itemLevel, visibility, isInsideBubble, createdAt } = item
 
     return (
-      <form onSubmit={handleSubmit}>
+      <form onChange={handleFormChange}>
         <div className="grid gap-3 grid-cols-2">
           <LabeledFormElement label="Item ID">
             <input className="input input-bordered input-sm cursor-not-allowed" readOnly defaultValue={itemId} />
@@ -94,8 +103,7 @@ const CellPanel = ({ boardItem, onDeleteItem }: Props) => {
           </LabeledFormElement>
           <div className="divider col-span-2"></div>
           <div className="col-span-2">
-            <button type="submit" className="btn btn-primary">Save</button>
-            <button className="btn btn-error mx-3" onClick={handleDelete}>Delete</button>
+            <button className="btn btn-error" onClick={handleDelete}>Delete</button>
           </div>
         </div>
       </form>

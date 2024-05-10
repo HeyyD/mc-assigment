@@ -3,7 +3,7 @@ import React, { createContext, useEffect, useState } from 'react'
 import './App.css'
 import Board from './component/Board'
 import CellPanel from './component/CellPanel'
-import { BoardData, BoardItem } from './model/boardData'
+import { BoardData, BoardItem, Item } from './model/boardData'
 
 export const SelectedCellContext = createContext<number>(0)
 
@@ -55,6 +55,14 @@ function App() {
     setSelectedCell(cell)
   }
 
+  const handleUpdateItem = (itemId: number, item: Item) => {
+    const boardItem = board.find(item => item && item.id === itemId)
+    if (boardItem) {
+      boardItem.item = item
+      setBoard([...board])
+    }
+  }
+
   const handleDeleteItem = (itemId: number) => {
     const cell = board.findIndex(item => item && item.id === itemId)
     if (cell > -1) {
@@ -76,7 +84,7 @@ function App() {
             <Board width={data.width} board={board} onSelectCell={handleSelectCell} onMoveDraggable={handleMoveDraggable} />
           </div>
           <div className="p-3">
-            <CellPanel key={getSelectedItem()?.id} boardItem={getSelectedItem()} onDeleteItem={handleDeleteItem}/>
+            <CellPanel key={getSelectedItem()?.id} boardItem={getSelectedItem()} onDeleteItem={handleDeleteItem} onUpdateItem={handleUpdateItem}/>
           </div>
         </div>
       </div>
