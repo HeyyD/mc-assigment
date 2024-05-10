@@ -65,7 +65,7 @@ const CellPanel = ({ item: boardItem }: Props) => {
           </LabeledFormElement>
           <LabeledFormElement label="Paused Until">
             <ReactDatePicker
-              className="input input-bordered input-sm"
+              className="input input-bordered input-sm cursor-pointer"
               dateFormat="YYYY-MM-dd HH:mm:ss"
               placeholderText="Select time"
               selected={pausedUntil}
