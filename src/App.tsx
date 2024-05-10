@@ -55,6 +55,10 @@ function App() {
     setSelectedCell(cell)
   }
 
+  const getSelectedItem = (): BoardItem | null => {
+    return board[selectedCell] ?? null
+  }
+
   return (
     <SelectedCellContext.Provider value={selectedCell}>
       <div data-theme="pastel" className="h-screen w-screen bg-base-200">
@@ -63,7 +67,7 @@ function App() {
             <Board width={data.width} board={board} onSelectCell={handleSelectCell} onMoveDraggable={handleMoveDraggable} />
           </div>
           <div className="p-3">
-            <CellPanel key={board[selectedCell]?.id ?? null} item={board[selectedCell]?.item ?? null}/>
+            <CellPanel key={getSelectedItem()?.id} item={getSelectedItem()}/>
           </div>
         </div>
       </div>

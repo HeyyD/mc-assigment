@@ -2,16 +2,18 @@ import moment from 'moment'
 import React, { useState } from 'react'
 import ReactDatePicker from 'react-datepicker'
 
-import { Item } from '../model/boardData'
+import { BoardItem } from '../model/boardData'
 
 import LabeledFormElement from './LabeledFormElement'
 
 import 'react-datepicker/dist/react-datepicker.css'
 
 type Props = {
-  item: Item | null
+  item: BoardItem | null
 }
-const CellPanel = ({ item }: Props) => {
+const CellPanel = ({ item: boardItem }: Props) => {
+
+  const item = boardItem?.item
 
   const initPausedUntil = () => {
     if (!item) {
