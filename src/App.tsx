@@ -6,6 +6,7 @@ import CellPanel from './component/CellPanel'
 import { BoardData, BoardItem, Item } from './model/boardData'
 
 export const SelectedCellContext = createContext<number>(0)
+export const SelectedItemContext = createContext<BoardItem | null>(null)
 
 let CURRENT_ID = 1
 const generateId = () => {
@@ -18,6 +19,11 @@ function App() {
 
   const [ selectedCell, setSelectedCell ] = useState<number>(0)
   const [ board, setBoard ] = useState<(BoardItem | null)[]>([])
+  const [ selectedItem, setSelectedItem ] = useState<BoardItem | null>(null)
+
+  const getSelectedItem = (): BoardItem | null => {
+    return board[selectedCell] ?? null
+  }
 
   useEffect(() => {
     fetch('/assigment.json')
@@ -31,6 +37,8 @@ function App() {
         setBoard(board)
       })
   }, [])
+
+  useEffect(() => setSelectedItem(getSelectedItem()), [selectedCell, board])
 
   if (!data) {
     return <div>Loading...</div>
@@ -74,37 +82,32 @@ function App() {
   const handleCreateItem = (item: Item) => {
     const existingItem = board[selectedCell]
     if (existingItem) {
-      alert('Tried to create a new item but there is no empty cell available.')
-      return
+      throw Error('Tried to create a new item but there is no empty cell available.')
     }
 
     board[selectedCell] = { id: generateId(), item }
     setBoard([...board])
   }
 
-  const getSelectedItem = (): BoardItem | null => {
-    return board[selectedCell] ?? null
-  }
-
-
   return (
     <SelectedCellContext.Provider value={selectedCell}>
-      <div data-theme="pastel" className="h-screen w-screen bg-base-200">
-        <div className="flex">
-          <div>
-            <Board width={data.width} board={board} onSelectCell={handleSelectCell} onMoveDraggable={handleMoveDraggable} />
-          </div>
-          <div className="p-3 grow max-w-[675px]">
-            <CellPanel
-              key={getSelectedItem()?.id}
-              boardItem={getSelectedItem()}
-              onCreateItem={handleCreateItem}
-              onUpdateItem={handleUpdateItem}
-              onDeleteItem={handleDeleteItem}
-            />
+      <SelectedItemContext.Provider value={selectedItem}>
+        <div data-theme="pastel" className="h-screen w-screen bg-base-200">
+          <div className="flex">
+            <div>
+              <Board width={data.width} board={board} onSelectCell={handleSelectCell} onMoveDraggable={handleMoveDraggable} />
+            </div>
+            <div className="p-3 grow max-w-[675px]">
+              <CellPanel
+                key={selectedItem?.id}
+                onCreateItem={handleCreateItem}
+                onUpdateItem={handleUpdateItem}
+                onDeleteItem={handleDeleteItem}
+              />
+            </div>
           </div>
         </div>
-      </div>
+      </SelectedItemContext.Provider>
     </SelectedCellContext.Provider>
   )
 }

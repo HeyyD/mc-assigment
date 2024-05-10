@@ -1,8 +1,9 @@
 import moment from 'moment'
-import React, { ChangeEvent, FormEvent, MouseEvent, useState } from 'react'
+import React, { ChangeEvent, FormEvent, MouseEvent, useContext, useState } from 'react'
 import ReactDatePicker from 'react-datepicker'
 
-import { BoardItem, Item } from '../model/boardData'
+import { SelectedItemContext } from '../App'
+import { Item } from '../model/boardData'
 
 import LabeledFormElement from './LabeledFormElement'
 
@@ -27,13 +28,13 @@ type FormData = {
   pausedUntil: HTMLInputElement
 }
 type Props = {
-  boardItem: BoardItem | null,
   onCreateItem: (item: Item) => void,
   onUpdateItem: (itemId: number, item: Item) => void,
   onDeleteItem: (itemId: number) => void
 }
-const CellPanel = ({ boardItem, onCreateItem, onUpdateItem, onDeleteItem }: Props) => {
+const CellPanel = ({ onCreateItem, onUpdateItem, onDeleteItem }: Props) => {
 
+  const boardItem = useContext(SelectedItemContext)
   const item = boardItem?.item
 
   const initPausedUntil = () => {
@@ -110,8 +111,7 @@ const CellPanel = ({ boardItem, onCreateItem, onUpdateItem, onDeleteItem }: Prop
 
   const updateItemForm = () => {
     if (!item) {
-      new Error('Trying to update an item that does not exist.')
-      return null
+      throw Error('Trying to update an item that does not exist.')
     }
 
     const { itemId, itemType, chainId, itemLevel, visibility, isInsideBubble, createdAt } = item
