@@ -1,10 +1,10 @@
 export interface BoardData {
   width: number
   height: number
-  items: Item[]
+  items: ItemData[]
 }
 
-export interface Item {
+export interface ItemData {
   itemId: number,
   itemType: string,
   chainId: string,
@@ -15,7 +15,7 @@ export interface Item {
   isInsideBubble: boolean,
 }
 
-export interface BoardItem {
+export interface Item {
   id: number
-  item: Item
+  data: ItemData
 }

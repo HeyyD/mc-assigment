@@ -3,11 +3,11 @@ import { useDraggable } from '@dnd-kit/core'
 import { CSS } from '@dnd-kit/utilities'
 import React from 'react'
 
-import { Item } from '../model/boardData'
+import { ItemData } from '../model/boardData'
 
 type Props = {
   id: number,
-  item: Item
+  item: ItemData
 }
 const DraggableItem = ({ id, item }: Props) => {
   const { attributes, listeners, setNodeRef, transform } = useDraggable({ id })

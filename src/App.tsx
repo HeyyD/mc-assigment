@@ -3,10 +3,10 @@ import React, { createContext, useEffect, useState } from 'react'
 import './App.css'
 import Board from './component/Board'
 import CellPanel from './component/CellPanel'
-import { BoardData, BoardItem, Item } from './model/boardData'
+import { BoardData, Item, ItemData } from './model/boardData'
 
 export const SelectedCellContext = createContext<number>(0)
-export const SelectedItemContext = createContext<BoardItem | null>(null)
+export const SelectedItemContext = createContext<Item | null>(null)
 
 let CURRENT_ID = 1
 const generateId = () => {
@@ -18,17 +18,17 @@ function App() {
   const [ data, setData ] = useState<BoardData | null>(null)
 
   const [ selectedCell, setSelectedCell ] = useState<number>(0)
-  const [ board, setBoard ] = useState<(BoardItem | null)[]>([])
-  const [ selectedItem, setSelectedItem ] = useState<BoardItem | null>(null)
+  const [ board, setBoard ] = useState<(Item | null)[]>([])
+  const [ selectedItem, setSelectedItem ] = useState<Item | null>(null)
 
-  const getSelectedItem = (): BoardItem | null => {
+  const getSelectedItem = (): Item | null => {
     return board[selectedCell] ?? null
   }
 
   const initBoardData = (data: BoardData) => {
     const board = new Array(data.width * data.height).fill(null)
     data.items.forEach((item, index) => {
-      board[index] = item ? { id: generateId(), item } : null
+      board[index] = item ? { id: generateId(), data: item } : null
     })
 
     setData(data)
@@ -43,10 +43,6 @@ function App() {
   }, [])
 
   useEffect(() => setSelectedItem(getSelectedItem()), [selectedCell, board])
-
-  if (!data) {
-    return <div>Loading...</div>
-  }
 
   const handleMoveDraggable = (itemId: number, cellTo: number) => {
     const cellFrom = board.findIndex(item => item && item.id === itemId)
@@ -67,35 +63,39 @@ function App() {
     setSelectedCell(cell)
   }
 
-  const handleUpdateItem = (itemId: number, item: Item) => {
-    const boardItem = board.find(item => item && item.id === itemId)
+  const handleUpdateItem = (id: number, item: ItemData) => {
+    const boardItem = board.find(item => item && item.id === id)
     if (boardItem) {
-      boardItem.item = item
+      boardItem.data = item
       setBoard([...board])
     }
   }
 
-  const handleDeleteItem = (itemId: number) => {
+  const handleDeleteItem = (id: number) => {
     const confirmed = confirm('Are you sure you want to delete the selected item?')
     if (!confirmed) {
       return
     }
 
-    const cell = board.findIndex(item => item && item.id === itemId)
+    const cell = board.findIndex(item => item && item.id === id)
     if (cell > -1) {
       board[cell] = null
       setBoard([...board])
     }
   }
 
-  const handleCreateItem = (item: Item) => {
+  const handleCreateItem = (item: ItemData) => {
     const existingItem = board[selectedCell]
     if (existingItem) {
       throw Error('Tried to create a new item but there is no empty cell available.')
     }
 
-    board[selectedCell] = { id: generateId(), item }
+    board[selectedCell] = { id: generateId(), data: item }
     setBoard([...board])
+  }
+
+  if (!data) {
+    return <div>Loading...</div>
   }
 
   return (

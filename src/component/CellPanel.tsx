@@ -3,7 +3,7 @@ import React, { ChangeEvent, FormEvent, MouseEvent, useContext, useState } from 
 import ReactDatePicker from 'react-datepicker'
 
 import { SelectedItemContext } from '../App'
-import { Item } from '../model/boardData'
+import { ItemData } from '../model/boardData'
 
 import LabeledFormElement from './LabeledFormElement'
 
@@ -28,14 +28,14 @@ type FormData = {
   pausedUntil: HTMLInputElement
 }
 type Props = {
-  onCreateItem: (item: Item) => void,
-  onUpdateItem: (itemId: number, item: Item) => void,
+  onCreateItem: (item: ItemData) => void,
+  onUpdateItem: (itemId: number, item: ItemData) => void,
   onDeleteItem: (itemId: number) => void
 }
 const CellPanel = ({ onCreateItem, onUpdateItem, onDeleteItem }: Props) => {
 
   const boardItem = useContext(SelectedItemContext)
-  const item = boardItem?.item
+  const item = boardItem?.data
 
   const initPausedUntil = () => {
     if (!item) {
@@ -63,7 +63,7 @@ const CellPanel = ({ onCreateItem, onUpdateItem, onDeleteItem }: Props) => {
   const handleFormChange = (event: FormEvent) => {
     const form = event.currentTarget as unknown as FormData
     if (item) {
-      const updatedItem: Item = {
+      const updatedItem: ItemData = {
         ...item,
         visibility: form.visibility.checked ? 'visible' : 'hidden',
         isInsideBubble: form.isInsideBubble.checked,
@@ -82,7 +82,7 @@ const CellPanel = ({ onCreateItem, onUpdateItem, onDeleteItem }: Props) => {
     const [ chainId, itemLevel ] = value.split('_')
     const itemId = 1169 + Number(itemLevel) // Just a mock logic to generate the item ID to have some similar data
 
-    const item: Item = {
+    const item: ItemData = {
       itemId: itemId,
       itemType: event.target.value,
       chainId: chainId,
