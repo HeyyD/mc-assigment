@@ -1,5 +1,5 @@
 import { DndContext, DragEndEvent } from '@dnd-kit/core'
-import React, { useState } from 'react'
+import React  from 'react'
 
 import { BoardItem, Item } from '../model/boardData'
 
@@ -8,34 +8,16 @@ import Draggable from './Draggable'
 
 type Props = {
   width: number,
-  items: (BoardItem | null)[],
+  board: (BoardItem | null)[],
   onSelectCell: (cell: number) => void,
-  onUpdateBoard: (items: (BoardItem | null)[]) => void
+  onMoveDraggable: (itemId: number, cellTo: number) => void,
 }
-const Board = ({ width, items, onSelectCell, onUpdateBoard }: Props) => {
-
-  const [board, setBoard] = useState(items)
-
-  const moveDraggable = (itemId: number, cellTo: number) => {
-    const cellFrom = board.findIndex(item => item && item.id === itemId)
-    const item = board[cellFrom]
-    const overlappingItem = board[cellTo]
-
-    if (cellFrom > -1) {
-      board[cellFrom] = overlappingItem ? overlappingItem : null
-    }
-
-    board[cellTo] = item
-
-    setBoard([...board])
-    onSelectCell(cellTo)
-    onUpdateBoard(board)
-  }
+const Board = ({ width, board, onSelectCell, onMoveDraggable }: Props) => {
 
   const handleDragEnd = (event: DragEndEvent) => {
     const { over, active } = event
     if (over) {
-      moveDraggable(+active.id, +over.id)
+      onMoveDraggable(+active.id, +over.id)
     }
   }
 

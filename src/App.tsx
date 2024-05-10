@@ -36,12 +36,23 @@ function App() {
     return <div>Loading...</div>
   }
 
-  const handleSelectCell = (cell: number) => {
-    setSelectedCell(cell)
+  const handleMoveDraggable = (itemId: number, cellTo: number) => {
+    const cellFrom = board.findIndex(item => item && item.id === itemId)
+    const item = board[cellFrom]
+    const overlappingItem = board[cellTo]
+
+    if (cellFrom > -1) {
+      board[cellFrom] = overlappingItem ? overlappingItem : null
+    }
+
+    board[cellTo] = item
+
+    setBoard([...board])
+    setSelectedCell(cellTo)
   }
 
-  const handleUpdateBoard = (items: (BoardItem | null)[]) => {
-    setBoard([...items])
+  const handleSelectCell = (cell: number) => {
+    setSelectedCell(cell)
   }
 
   return (
@@ -49,7 +60,7 @@ function App() {
       <div data-theme="pastel" className="h-screen w-screen bg-base-200">
         <div className="flex">
           <div>
-            <Board width={data.width} items={board} onSelectCell={handleSelectCell} onUpdateBoard={handleUpdateBoard} />
+            <Board width={data.width} board={board} onSelectCell={handleSelectCell} onMoveDraggable={handleMoveDraggable} />
           </div>
           <div className="p-3">
             <CellPanel key={board[selectedCell]?.id ?? null} item={board[selectedCell]?.item ?? null}/>
