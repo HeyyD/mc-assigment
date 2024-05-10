@@ -8,6 +8,19 @@ import LabeledFormElement from './LabeledFormElement'
 
 import 'react-datepicker/dist/react-datepicker.css'
 
+const CREATABLE_ITEMS = [
+  'BroomCabinet_01',
+  'BroomCabinet_02',
+  'BroomCabinet_03',
+  'BroomCabinet_04',
+  'BroomCabinet_05',
+  'BroomCabinet_06',
+  'BroomCabinet_07',
+  'BroomCabinet_08',
+  'BroomCabinet_09',
+  'BroomCabinet_10'
+]
+
 type FormData = {
   visibility: HTMLInputElement,
   isInsideBubble: HTMLInputElement,
@@ -61,7 +74,14 @@ const CellPanel = ({ boardItem, onUpdateItem, onDeleteItem }: Props) => {
 
   const addItemForm = () => {
     return (
-      <div>CREATE</div>
+      <LabeledFormElement label="Select an item to create">
+        <select className="select select-bordered" defaultValue={''}>
+          <option value={''}>NONE</option>
+          {CREATABLE_ITEMS.map((item, index) => (
+            <option key={index} value={item}>{item}</option>
+          ))}
+        </select>
+      </LabeledFormElement>
     )
   }
 
