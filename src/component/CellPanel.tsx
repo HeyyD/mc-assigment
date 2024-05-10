@@ -1,5 +1,5 @@
 import moment from 'moment'
-import React, { useState } from 'react'
+import React, { MouseEvent, useState } from 'react'
 import ReactDatePicker from 'react-datepicker'
 
 import { BoardItem } from '../model/boardData'
@@ -9,9 +9,10 @@ import LabeledFormElement from './LabeledFormElement'
 import 'react-datepicker/dist/react-datepicker.css'
 
 type Props = {
-  item: BoardItem | null
+  item: BoardItem | null,
+  onDeleteItem: (itemId: number) => void
 }
-const CellPanel = ({ item: boardItem }: Props) => {
+const CellPanel = ({ item: boardItem, onDeleteItem }: Props) => {
 
   const item = boardItem?.item
 
@@ -23,6 +24,13 @@ const CellPanel = ({ item: boardItem }: Props) => {
   }
 
   const [ pausedUntil, setPausedUntil ] = useState<Date | null>(() => initPausedUntil())
+
+  const handleDelete = (event: MouseEvent) => {
+    event.preventDefault()
+    if (boardItem) {
+      onDeleteItem(boardItem.id)
+    }
+  }
 
   const addItemForm = () => {
     return (
@@ -75,7 +83,7 @@ const CellPanel = ({ item: boardItem }: Props) => {
           <div className="divider col-span-2"></div>
           <div className="col-span-2">
             <button className="btn btn-primary">Save</button>
-            <button className="btn btn-error mx-3">Delete</button>
+            <button className="btn btn-error mx-3" onClick={handleDelete}>Delete</button>
           </div>
         </div>
       </form>

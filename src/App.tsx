@@ -55,9 +55,18 @@ function App() {
     setSelectedCell(cell)
   }
 
+  const handleDeleteItem = (itemId: number) => {
+    const cell = board.findIndex(item => item && item.id === itemId)
+    if (cell > -1) {
+      board[cell] = null
+      setBoard([...board])
+    }
+  }
+
   const getSelectedItem = (): BoardItem | null => {
     return board[selectedCell] ?? null
   }
+
 
   return (
     <SelectedCellContext.Provider value={selectedCell}>
@@ -67,7 +76,7 @@ function App() {
             <Board width={data.width} board={board} onSelectCell={handleSelectCell} onMoveDraggable={handleMoveDraggable} />
           </div>
           <div className="p-3">
-            <CellPanel key={getSelectedItem()?.id} item={getSelectedItem()}/>
+            <CellPanel key={getSelectedItem()?.id} item={getSelectedItem()} onDeleteItem={handleDeleteItem}/>
           </div>
         </div>
       </div>
