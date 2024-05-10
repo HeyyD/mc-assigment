@@ -76,6 +76,11 @@ function App() {
   }
 
   const handleDeleteItem = (itemId: number) => {
+    const confirmed = confirm('Are you sure you want to delete the selected item?')
+    if (!confirmed) {
+      return
+    }
+
     const cell = board.findIndex(item => item && item.id === itemId)
     if (cell > -1) {
       board[cell] = null
