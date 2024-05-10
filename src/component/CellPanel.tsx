@@ -1,13 +1,27 @@
-import React from 'react'
+import moment from 'moment'
+import React, { useState } from 'react'
+import ReactDatePicker from 'react-datepicker'
 
 import { Item } from '../model/boardData'
 
 import LabeledFormElement from './LabeledFormElement'
 
+import 'react-datepicker/dist/react-datepicker.css'
+
 type Props = {
   item: Item | null
 }
 const CellPanel = ({ item }: Props) => {
+
+  const initPausedUntil = () => {
+    if (!item) {
+      return null
+    }
+    return item.pausedUntil ? new Date(item.pausedUntil) : null
+  }
+
+  const [ pausedUntil, setPausedUntil ] = useState<Date | null>(() => initPausedUntil())
+
   const addItemForm = () => {
     return (
       <div>CREATE</div>
@@ -20,7 +34,7 @@ const CellPanel = ({ item }: Props) => {
       return null
     }
 
-    const { itemId, itemType, chainId, itemLevel, visibility, isInsideBubble } = item
+    const { itemId, itemType, chainId, itemLevel, visibility, isInsideBubble, createdAt } = item
 
     return (
       <form>
@@ -37,12 +51,24 @@ const CellPanel = ({ item }: Props) => {
           <LabeledFormElement label="Item Level">
             <input className="input input-bordered input-sm cursor-not-allowed" readOnly defaultValue={itemLevel} />
           </LabeledFormElement>
+          <LabeledFormElement label="Created At">
+            <input className="input input-bordered input-sm cursor-not-allowed" readOnly defaultValue={moment(createdAt).format('YYYY-MM-DD HH:mm:ss')} />
+          </LabeledFormElement>
           <div className="divider col-span-2"></div>
           <LabeledFormElement label="Visible">
             <input type="checkbox" className="toggle" defaultChecked={visibility === 'visible'} />
           </LabeledFormElement>
           <LabeledFormElement label="Inside Bubble">
             <input type="checkbox" className="toggle" defaultChecked={isInsideBubble} />
+          </LabeledFormElement>
+          <LabeledFormElement label="Paused Until">
+            <ReactDatePicker
+              className="input input-bordered input-sm"
+              dateFormat="YYYY-MM-dd HH:mm:ss"
+              placeholderText="Select time"
+              selected={pausedUntil}
+              onChange={setPausedUntil}
+              showTimeSelect />
           </LabeledFormElement>
           <div className="divider col-span-2"></div>
           <div className="col-span-2">
