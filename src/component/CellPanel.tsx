@@ -28,10 +28,11 @@ type FormData = {
 }
 type Props = {
   boardItem: BoardItem | null,
+  onCreateItem: (item: Item) => void,
   onUpdateItem: (itemId: number, item: Item) => void,
   onDeleteItem: (itemId: number) => void
 }
-const CellPanel = ({ boardItem, onUpdateItem, onDeleteItem }: Props) => {
+const CellPanel = ({ boardItem, onCreateItem, onUpdateItem, onDeleteItem }: Props) => {
 
   const item = boardItem?.item
 
@@ -74,6 +75,9 @@ const CellPanel = ({ boardItem, onUpdateItem, onDeleteItem }: Props) => {
 
   const handleCreateItem = (event: ChangeEvent<HTMLSelectElement>) => {
     const value = event.target.value
+    if (!value) {
+      return
+    }
     const [ chainId, itemLevel ] = value.split('_')
     const itemId = 1169 + Number(itemLevel) // Just a mock logic to generate the item ID to have some similar data
 
@@ -88,7 +92,7 @@ const CellPanel = ({ boardItem, onUpdateItem, onDeleteItem }: Props) => {
       pausedUntil: null,
     }
 
-    console.log(item)
+    onCreateItem(item)
   }
 
   const addItemForm = () => {

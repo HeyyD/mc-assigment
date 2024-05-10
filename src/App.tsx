@@ -71,6 +71,17 @@ function App() {
     }
   }
 
+  const handleCreateItem = (item: Item) => {
+    const existingItem = board[selectedCell]
+    if (existingItem) {
+      alert('Tried to create a new item but there is no empty cell available.')
+      return
+    }
+
+    board[selectedCell] = { id: generateId(), item }
+    setBoard([...board])
+  }
+
   const getSelectedItem = (): BoardItem | null => {
     return board[selectedCell] ?? null
   }
@@ -84,7 +95,13 @@ function App() {
             <Board width={data.width} board={board} onSelectCell={handleSelectCell} onMoveDraggable={handleMoveDraggable} />
           </div>
           <div className="p-3">
-            <CellPanel key={getSelectedItem()?.id} boardItem={getSelectedItem()} onDeleteItem={handleDeleteItem} onUpdateItem={handleUpdateItem}/>
+            <CellPanel
+              key={getSelectedItem()?.id}
+              boardItem={getSelectedItem()}
+              onCreateItem={handleCreateItem}
+              onUpdateItem={handleUpdateItem}
+              onDeleteItem={handleDeleteItem}
+            />
           </div>
         </div>
       </div>
