@@ -94,7 +94,7 @@ function App() {
           <div>
             <Board width={data.width} board={board} onSelectCell={handleSelectCell} onMoveDraggable={handleMoveDraggable} />
           </div>
-          <div className="p-3">
+          <div className="p-3 grow max-w-[675px]">
             <CellPanel
               key={getSelectedItem()?.id}
               boardItem={getSelectedItem()}

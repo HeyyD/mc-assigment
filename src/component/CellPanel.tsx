@@ -120,19 +120,19 @@ const CellPanel = ({ boardItem, onCreateItem, onUpdateItem, onDeleteItem }: Prop
       <form onChange={handleFormChange}>
         <div className="grid gap-3 grid-cols-2">
           <LabeledFormElement label="Item ID">
-            <input className="input input-bordered input-sm cursor-not-allowed" readOnly defaultValue={itemId} />
+            <input className="input w-full input-bordered input-sm cursor-not-allowed" readOnly defaultValue={itemId} />
           </LabeledFormElement>
           <LabeledFormElement label="Item Type">
-            <input className="input input-bordered input-sm cursor-not-allowed" readOnly defaultValue={itemType} />
+            <input className="input w-full input-bordered input-sm cursor-not-allowed" readOnly defaultValue={itemType} />
           </LabeledFormElement>
           <LabeledFormElement label="Chain ID">
-            <input className="input input-bordered input-sm cursor-not-allowed" readOnly defaultValue={chainId} />
+            <input className="input w-full input-bordered input-sm cursor-not-allowed" readOnly defaultValue={chainId} />
           </LabeledFormElement>
           <LabeledFormElement label="Item Level">
-            <input className="input input-bordered input-sm cursor-not-allowed" readOnly defaultValue={itemLevel} />
+            <input className="input w-full input-bordered input-sm cursor-not-allowed" readOnly defaultValue={itemLevel} />
           </LabeledFormElement>
           <LabeledFormElement label="Created At">
-            <input className="input input-bordered input-sm cursor-not-allowed" readOnly defaultValue={moment(createdAt).format('YYYY-MM-DD HH:mm:ss')} />
+            <input className="input w-full input-bordered input-sm cursor-not-allowed" readOnly defaultValue={moment(createdAt).format('YYYY-MM-DD HH:mm:ss')} />
           </LabeledFormElement>
           <div className="divider col-span-2"></div>
           <LabeledFormElement label="Visible">
