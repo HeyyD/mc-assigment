@@ -44,6 +44,8 @@
     ]
   },
   "devDependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
+    "@babel/plugin-transform-private-property-in-object": "^7.24.5",
     "@types/react-datepicker": "^6.2.0",
     "daisyui": "^4.11.1",
     "eslint": "^8.57.0",
