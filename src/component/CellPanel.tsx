@@ -1,5 +1,5 @@
 import moment from 'moment'
-import React, { ChangeEvent, FormEvent, MouseEvent, useContext, useState } from 'react'
+import { ChangeEvent, FormEvent, MouseEvent, useContext, useState } from 'react'
 import ReactDatePicker from 'react-datepicker'
 
 import { ItemData } from '../model'

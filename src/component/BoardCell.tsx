@@ -1,6 +1,6 @@
 
 import { useDroppable } from '@dnd-kit/core'
-import React, { useContext } from 'react'
+import { useContext } from 'react'
 
 import { SelectedCellContext } from '../utils'
 

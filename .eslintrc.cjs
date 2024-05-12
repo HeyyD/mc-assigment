@@ -15,5 +15,6 @@ module.exports = {
       { allowConstantExport: true },
     ],
     "quotes": ["error", "single"],
+    "react-hooks/exhaustive-deps": 'disabled'
   },
 }
