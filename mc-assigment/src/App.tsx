@@ -1,34 +1,121 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import React, { useEffect, useState } from 'react'
+
 import './App.css'
+import Board from './component/Board'
+import CellPanel from './component/CellPanel'
+import { BoardData, Item, ItemData } from './model'
+import { generateId, SelectedCellContext, SelectedItemContext } from './utils'
 
 function App() {
-  const [count, setCount] = useState(0)
+
+  const [ data, setData ] = useState<BoardData | null>(null)
+
+  const [ selectedCell, setSelectedCell ] = useState<number>(0)
+  const [ board, setBoard ] = useState<(Item | null)[]>([])
+  const [ selectedItem, setSelectedItem ] = useState<Item | null>(null)
+
+  const getSelectedItem = (): Item | null => {
+    return board[selectedCell] ?? null
+  }
+
+  const initBoardData = (data: BoardData) => {
+    const board = new Array(data.width * data.height).fill(null)
+    data.items.forEach((item, index) => {
+      board[index] = item ? { id: generateId(), data: item } : null
+    })
+
+    setData(data)
+    setBoard(board)
+    setSelectedItem(getSelectedItem())
+  }
+
+  useEffect(() => {
+    fetch('/assigment.json')
+      .then((response) => response.json())
+      .then(initBoardData)
+  }, [])
+
+  useEffect(() => setSelectedItem(getSelectedItem()), [selectedCell, board])
+
+  const handleMoveDraggable = (itemId: number, cellTo: number) => {
+    const cellFrom = board.findIndex(item => item && item.id === itemId)
+    const item = board[cellFrom]
+    const overlappingItem = board[cellTo]
+
+    if (cellFrom > -1) {
+      board[cellFrom] = overlappingItem ? overlappingItem : null
+    }
+
+    board[cellTo] = item
+
+    setBoard([...board])
+    setSelectedCell(cellTo)
+  }
+
+  const handleSelectCell = (cell: number) => {
+    setSelectedCell(cell)
+  }
+
+  const handleUpdateItem = (id: number, item: ItemData) => {
+    const boardItem = board.find(item => item && item.id === id)
+    if (boardItem) {
+      boardItem.data = item
+      setBoard([...board])
+    }
+  }
+
+  const handleDeleteItem = (id: number) => {
+    const confirmed = confirm('Are you sure you want to delete the selected item?')
+    if (!confirmed) {
+      return
+    }
+
+    const cell = board.findIndex(item => item && item.id === id)
+    if (cell > -1) {
+      board[cell] = null
+      setBoard([...board])
+    }
+  }
+
+  const handleCreateItem = (item: ItemData) => {
+    const existingItem = board[selectedCell]
+    if (existingItem) {
+      throw Error('Tried to create a new item but there is no empty cell available.')
+    }
+
+    board[selectedCell] = { id: generateId(), data: item }
+    setBoard([...board])
+  }
+
+  if (!data) {
+    return <div>Loading...</div>
+  }
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <SelectedCellContext.Provider value={selectedCell}>
+      <SelectedItemContext.Provider value={selectedItem}>
+        <div data-theme="pastel" className="h-screen w-screen bg-base-200">
+          <div className="flex">
+            <div>
+              <Board
+                width={data.width}
+                board={board}
+                onSelectCell={handleSelectCell}
+                onMoveDraggable={handleMoveDraggable}
+              />
+            </div>
+            <div className="p-3 grow max-w-[675px]">
+              <CellPanel
+                key={selectedItem?.id}
+                onCreateItem={handleCreateItem}
+                onUpdateItem={handleUpdateItem}
+                onDeleteItem={handleDeleteItem}
+              />
+            </div>
+          </div>
+        </div>
+      </SelectedItemContext.Provider>
+    </SelectedCellContext.Provider>
   )
 }
 
