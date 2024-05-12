@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 
-import './App.css'
 import Board from './component/Board'
 import CellPanel from './component/CellPanel'
 import { BoardData, Item, ItemData } from './model'

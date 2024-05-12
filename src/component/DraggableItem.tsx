@@ -1,7 +1,7 @@
 
 import { useDraggable } from '@dnd-kit/core'
 import { CSS } from '@dnd-kit/utilities'
-import React, { useContext } from 'react'
+import { useContext } from 'react'
 
 import { ItemData } from '../model'
 import { SelectedItemContext } from '../utils'
