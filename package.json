@@ -10,7 +10,11 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@dnd-kit/core": "^6.1.0",
+    "@types/react-datepicker": "^6.2.0",
+    "moment": "^2.30.1",
     "react": "^18.2.0",
+    "react-datepicker": "^6.9.0",
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
